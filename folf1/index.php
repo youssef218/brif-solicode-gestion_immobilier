@@ -1,3 +1,8 @@
+<?php
+session_start();
+session_destroy();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,16 +22,16 @@
     </header>
     <nav>
         <ul>
-            <li><i class="fa-solid fa-house"></i></li>
-            <li><i class="fa-solid fa-user"></i></li>
-            <li><i class="fa-solid fa-plus"></i></li>
+            <li><a href="http://localhost/knn/folf1/index.php"><i class="fa-solid fa-house"></a></i></li>
+            <li> <a href="http://localhost/knn/folf1/profile.php"><i class="fa-solid fa-user"></i></i></a></li>
+            <li><a href="ajoute.php"><i class="fa-solid fa-plus"></i></a></li>
         </ul>
     </nav>
     <section>
 
 
         <div id="filter">
-           <form action="" id="filter" method="post">
+           <form action="" id="filter" method="get">
             <h2>Filtrer : </h2>
             <select name="villes" id="ville">
                 <option value="ville">ville</option>
@@ -67,7 +72,7 @@
 
                   echo '
                      
-                <form action=" http://localhost/k/info.php" method="post" >
+                <form action=" http://localhost/knn/folf1/info.php" method="post" >
                 <div class="card" style="width: 15rem;" >
                 <img src="img5.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
@@ -94,7 +99,7 @@
 
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-          header('Location: http://localhost/k/info.php');
+          header('Location: http://localhost/knn/folf1/info.php');
           exit;
       }
             

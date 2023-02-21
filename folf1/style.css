@@ -50,14 +50,14 @@ form{
     flex-wrap: wrap;
 }
 #cards>*{
-    margin: 1%;
-    transition: all 6s ease-in-out;
-    transform: scale(0.5);
+    margin: 0%;
+    transition: all .2s ease-in-out;
+    transform: scale(0.9);
 }
 #cards>*:hover{
-    
+    transform: scale(1.1);
     z-index: 999;
-    box-shadow: 0px 5px 10px black;
+    box-shadow: 0px 5px 5px black;
 }
 i{
     font-size: x-large;
@@ -75,4 +75,11 @@ i{
 #flex>div>*{
     margin: 1% 0%;
     width: 49%;
+}
+.input{
+    width: 100%;
+}
+.inpu{
+    width: 100%;
+    background-color:rgb(162, 194, 209);
 }

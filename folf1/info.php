@@ -19,32 +19,15 @@
     </header>
     <nav>
         <ul>
-            <li><i class="fa-solid fa-house"></i></li>
-            <li><i class="fa-solid fa-user"></i></li>
+        <li><a href="http://localhost/knn/folf1/index.php"><i class="fa-solid fa-house"></a></i></li>
+            <li> <a href="http://localhost/knn/folf1/profile.php"><i class="fa-solid fa-user"></i></i></a></li>
             <i class="fa-solid fa-right-from-bracket"></i>
-            <li><i class="fa-solid fa-plus"></i></li>
-        </ul>
+            <li><a href="http://localhost/knn/folf1/ajoute.php"><i class="fa-solid fa-plus"></i></a></li>
+                  </ul>
     </nav>
     <section>
 
-        <div id="imageprincipal">
-            <img src="img5.jpg" alt="">
-            <div id="flex">
-                
-                <img src="img5.jpg" alt="">
-                <div class=" d-flex">
-                    <img src="img5.jpg" alt="">
-                <img src="img5.jpg" alt="">
-                </div>
-                <img src="img5.jpg" alt="">
-                <img src="img5.jpg" alt="">
-            </div>
-
-
-
-
-
-        </div>
+        
 
 
 
@@ -71,6 +54,24 @@
            if (mysqli_num_rows($resultmodal) > 0) {
              while ($rowmodal = mysqli_fetch_assoc($resultmodal)) {
               echo '
+              <div id="imageprincipal">
+            <img src="img5.jpg" alt="">
+            <div id="flex">
+                
+                <img src="img5.jpg" alt="">
+                <div class=" d-flex">
+                    <img src="img5.jpg" alt="">
+                <img src="img5.jpg" alt="">
+                </div>
+                <img src="img5.jpg" alt="">
+                <img src="img5.jpg" alt="">
+            </div>
+
+
+
+
+
+        </div>
               <h1 style="background-color: white;  width: max-content; margin-top:3%;">Titre</h1>
               <h5>'.$rowmodal['titre'].'</h5><br>
               <h2 style="background-color: white;  width: max-content; margin-top:3%;">Adresse d`annonce</h2>
@@ -94,24 +95,7 @@
         </div>
 
         </div>
-        <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
+        
     </section>
   
   
