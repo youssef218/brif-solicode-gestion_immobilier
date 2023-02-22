@@ -107,30 +107,30 @@ foreach ($records as $record) {
                                 <div class="row">
                                     <div class="col-sm-5 col-md-6">
                                         <label for="" class="form-label">Nome</label>
-                                        <input type="text" class="form-control input" value="' . $record['nom'] . '" name="">
+                                        <input type="text" class="form-control input" value="' . $record['nom'] . '" name="nom">
             
                                     </div>
                                     <div class="col-sm-5 offset-sm-2 col-md-6 offset-md-0">
                                         <label for="" class="form-label">Prenom</label>
-                                        <input type="text" class="form-control input" value="' . $record['prenom'] . '" name="">
+                                        <input type="text" class="form-control input" value="' . $record['prenom'] . '" name="prenom">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6 col-md-5 col-lg-6">
                                         <label for="" class="form-label">Email
                                         </label>
-                                        <input type="text" class="form-control value="' . $record['email'] . '" input" name="">
+                                        <input type="text" class="form-control input" value="' . $record['email'] . '" name="email">
             
                                     </div>
                                     <div class="col-sm-6 col-md-5 offset-md-2 col-lg-6 offset-lg-0">
                                         <label for="" class="form-label">Téléphone</label>
-                                        <input type="text" value="' . $record['telephone'] . '" class="form-control input" name="">
+                                        <input type="text" value="' . $record['telephone'] . '" class="form-control input" name="telephone">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-5 col-md-6">
                                         <label for="" class="form-label">Mot de passe</label>
-                                        <input type="password" value="' . $record['password'] . '" class="form-control input" name="">
+                                        <input type="password" value="' . $record['password'] . '" class="form-control input" name="password">
             
                                     </div>
                                     <div class="col-sm-5 offset-sm-2 col-md-6 offset-md-0">
@@ -141,7 +141,7 @@ foreach ($records as $record) {
                             </div>
                             <div class="d-flex  justify-content-center align-content-center ">
                                 <div>
-                                    <input type="submit" class="form-control inpu my-5" name="" value="Update">
+                                    <input type="submit" class="form-control inpu my-5" name="Update" value="Update">
                                 </div>
             
             
@@ -188,13 +188,87 @@ foreach ($records as $record) {
                   <input type="submit" class="btn btn-primary" name="modal"  value="more">
 
                 </div>
+                
               </div>
               </form>
+              <form action=" http://localhost/knn/folf1/modif.php" method="post">
+                <input type="hidden" name="id"  value="' . $record["id_annonce"] . '">
+                <input type="submit" class="btn btn-primary" name="modifier"  value="modifier">
+                </form>
               
 
             ';
 
             }
+
+
+
+
+
+
+
+            // if (isset($_POST['Update'])) {
+            //     $value1 = $_POST['nom'];
+            //     $value2 = $_POST['prenom'];
+            //     $value3 = $_POST['email'];
+            //     $value4 = $_POST['password'];
+            //     $value5 = $_POST['telephone'];
+            //     $value6 =  $user_id ;
+            //     // Prepare SQL statement
+            //     $stmt = $conn->prepare("UPDATE clients SET  nom = :value1,  prenom = :value2,  email = :value3,  password = :value4,  telephone = :value5 WHERE  id_client = :value6");
+                                            
+            //     // Bind parameters to values         
+            //     $stmt->bindParam(':value1', $value1);
+            //     $stmt->bindParam(':value2', $value2);
+            //     $stmt->bindParam(':value3', $value3);
+            //     $stmt->bindParam(':value4', $value4);
+            //     $stmt->bindParam(':value5', $value5);
+            //     $stmt->bindParam(':value6', $value6);
+            //     // Execute the statement
+            //     $stmt->execute();
+            //     echo "Data update successfully!";
+            //   }
+
+
+            // Update the client's information
+if (isset($_POST['Update'])) {
+    $value1 = $_POST['nom'];
+    $value2 = $_POST['prenom'];
+    $value3 = $_POST['email'];
+    $value4 = $_POST['password'];
+    $value5 = $_POST['telephone'];
+    $value6 = $user_id;
+
+                // echo $value1;
+                // echo $value2;
+                // echo $value3;
+                // echo $value4;
+                // echo $value5;
+                // echo $value6;
+
+    try {
+        $stmt = $db->prepare("UPDATE clients SET nom = :value1, prenom = :value2, email = :value3, password = :value4, telephone = :value5 WHERE id_client = :value6");
+
+        $stmt->bindParam(':value1', $value1);
+        $stmt->bindParam(':value2', $value2);
+        $stmt->bindParam(':value3', $value3);
+        $stmt->bindParam(':value4', $value4);
+        $stmt->bindParam(':value5', $value5);
+        $stmt->bindParam(':value6', $value6);
+
+        $stmt->execute();
+        header('Location: profile.php');
+            exit;
+        
+    } catch(PDOException $e) {
+        echo "Error updating data: " . $e->getMessage();
+    }
+}
+           
+            
+           
+            
+
 
 
 
@@ -246,7 +320,8 @@ foreach ($records as $record) {
 
 
 
-
+                // Close connection
+                $conn = null;
             ?>
         </div>
     </section>
