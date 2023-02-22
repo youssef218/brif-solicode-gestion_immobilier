@@ -1,3 +1,21 @@
+<?php
+
+session_start();
+
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+    // ... display user dashboard ...
+    echo $user_id;
+} else {
+    header('Location: Connection.php');
+    exit;
+}
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,11 +37,17 @@
     </header>
     <nav>
         <ul>
-            <li><a href="http://localhost/knn/folf1/index.php"><i class="fa-solid fa-house"></a></i></li>
+            <li><a href="http://localhost/knn/folf1/inde.php"><i class="fa-solid fa-house"></a></i></li>
             <li>
                 <a href="http://localhost/knn/folf1/profile.php"><i class="fa-solid fa-user"></i></i></a>
             </li>
+           <li>
+            
+            <a  href="http://localhost/knn/folf1/exit.php">
             <i class="fa-solid fa-right-from-bracket"></i>
+            </a>
+           </li>
+           
             <li><a href="http://localhost/knn/folf1/ajoute.php"><i class="fa-solid fa-plus"></i></a></li>
 
         </ul>
@@ -31,26 +55,40 @@
 
 
     <?php
-            $servername = "localhost";
-            $username = "Root";
-            $password = "";
-            $dbname = "gestionnaire";
-            // Créez une connexion
-            $conn = mysqli_connect($servername, $username, $password, $dbname);
-            // Vérifiez la connexion
-            if (!$conn) {
-                die("Connexion échouée : " . mysqli_connect_error());
-            }
 
 
-            $sql = "SELECT * FROM clients WHERE `id_client`=1 ";
+$dsn = 'mysql:host=localhost;dbname=gestionnaire';
+$username = 'Root';
+$password = '';
+$options = array(
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+);
+try {
+    $db = new PDO($dsn, $username, $password, $options);
+} catch (PDOException $e) {
+    echo 'Connection failed: ' . $e->getMessage();
+}
 
-            $result = mysqli_query($conn, $sql);
-            if (mysqli_num_rows($result) > 0) {
+// Query the database for the first 5 records
+$stmt = $db->prepare('SELECT * FROM clients WHERE id_client = :id LIMIT 5');
+$stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
+$stmt->execute();
+$records = $stmt->fetchAll();
 
-                while ($row = mysqli_fetch_assoc($result)) {
+// Display the records on the page
+foreach ($records as $record) {
+    
 
-                    echo '
+
+
+
+
+
+
+    
+        
+
+            echo '
                      
                     <section class="m-0 mt-5">
                     <div class="d-flex  justify-content-center align-content-center ">
@@ -69,35 +107,35 @@
                                 <div class="row">
                                     <div class="col-sm-5 col-md-6">
                                         <label for="" class="form-label">Nome</label>
-                                        <input type="text" class="form-control input" value="'.$row['nom'].'" name="">
+                                        <input type="text" class="form-control input" value="' . $record['nom'] . '" name="">
             
                                     </div>
                                     <div class="col-sm-5 offset-sm-2 col-md-6 offset-md-0">
                                         <label for="" class="form-label">Prenom</label>
-                                        <input type="text" class="form-control input" value="'.$row['prenom'].'" name="">
+                                        <input type="text" class="form-control input" value="' . $record['prenom'] . '" name="">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6 col-md-5 col-lg-6">
                                         <label for="" class="form-label">Email
                                         </label>
-                                        <input type="text" class="form-control value="'.$row['email'].'" input" name="">
+                                        <input type="text" class="form-control value="' . $record['email'] . '" input" name="">
             
                                     </div>
                                     <div class="col-sm-6 col-md-5 offset-md-2 col-lg-6 offset-lg-0">
                                         <label for="" class="form-label">Téléphone</label>
-                                        <input type="text" value="'.$row['telephone'].'" class="form-control input" name="">
+                                        <input type="text" value="' . $record['telephone'] . '" class="form-control input" name="">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-5 col-md-6">
                                         <label for="" class="form-label">Mot de passe</label>
-                                        <input type="password" value="'.$row['password'].'" class="form-control input" name="">
+                                        <input type="password" value="' . $record['password'] . '" class="form-control input" name="">
             
                                     </div>
                                     <div class="col-sm-5 offset-sm-2 col-md-6 offset-md-0">
                                         <label for="" class="form-label">Confirmer le mot de passe</label>
-                                        <input type="password" value="'.$row['password'].'" class="form-control input" name="">
+                                        <input type="password" value="' . $record['password'] . '" class="form-control input" name="">
                                     </div>
                                 </div>
                             </div>
@@ -112,18 +150,15 @@
                     </form>
 
             ';
-                }
-            } else {
-                echo "0 résultats";
-            }
+        }
+     
 
 
 
 
 
+    ?>
 
-            ?>
-    
 
 
 
@@ -133,35 +168,23 @@
         <h1>Mes annonce</h1>
         <div id="cards">
             <?php
-            $servername = "localhost";
-            $username = "Root";
-            $password = "";
-            $dbname = "gestionnaire";
-            // Créez une connexion
-            $conn = mysqli_connect($servername, $username, $password, $dbname);
-            // Vérifiez la connexion
-            if (!$conn) {
-                die("Connexion échouée : " . mysqli_connect_error());
-            }
-
-
-            $sql = "SELECT * FROM annonce WHERE `id_client`=1 ";
-
-            $result = mysqli_query($conn, $sql);
-            if (mysqli_num_rows($result) > 0) {
-
-                while ($row = mysqli_fetch_assoc($result)) {
-
-                    echo '
+    $stmt = $db->prepare('SELECT * FROM annonce WHERE id_client = :id ');
+    $stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $records = $stmt->fetchAll();
+    
+    // Display the records on the page
+            foreach ($records as $record) {
+                echo '
                      
                 <form action=" http://localhost/knn/folf1/info.php" method="post" >
                 <div class="card" style="width: 15rem;" >
                 <img src="img5.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
-                  <h5 class="card-title">' . $row['titre'] . '</h5>
-                  <p class="card-text">' . $row['prix'] . '</p>
-                  <p class="card-text">' . $row['adresse'] . '</p>
-                  <input type="hidden" name="id"  value="' . $row["id_annonce"] . '">
+                  <h5 class="card-title">' . $record['titre'] . '</h5>
+                  <p class="card-text">' . $record['prix'] . '</p>
+                  <p class="card-text">' . $record['adresse'] . '</p>
+                  <input type="hidden" name="id"  value="' . $record["id_annonce"] . '">
                   <input type="submit" class="btn btn-primary" name="modal"  value="more">
 
                 </div>
@@ -170,10 +193,54 @@
               
 
             ';
-                }
-            } else {
-                echo "0 résultats";
+
             }
+
+
+
+
+
+            // $servername = "localhost";
+            // $username = "Root";
+            // $password = "";
+            // $dbname = "gestionnaire";
+            // // Créez une connexion
+            // $conn = mysqli_connect($servername, $username, $password, $dbname);
+            // // Vérifiez la connexion
+            // if (!$conn) {
+            //     die("Connexion échouée : " . mysqli_connect_error());
+            // }
+
+
+            // $sql = "SELECT * FROM annonce WHERE `id_client`=1 ";
+
+            // $result = mysqli_query($conn, $sql);
+            // if (mysqli_num_rows($result) > 0) {
+
+            //     while ($row = mysqli_fetch_assoc($result)) {
+
+            //         echo '
+                     
+            //     <form action=" http://localhost/knn/folf1/info.php" method="post" >
+            //     <div class="card" style="width: 15rem;" >
+            //     <img src="img5.jpg" class="card-img-top" alt="...">
+            //     <div class="card-body">
+            //       <h5 class="card-title">' . $row['titre'] . '</h5>
+            //       <p class="card-text">' . $row['prix'] . '</p>
+            //       <p class="card-text">' . $row['adresse'] . '</p>
+            //       <input type="hidden" name="id"  value="' . $row["id_annonce"] . '">
+            //       <input type="submit" class="btn btn-primary" name="modal"  value="more">
+
+            //     </div>
+            //   </div>
+            //   </form>
+              
+
+            // ';
+            //     }
+            // } else {
+            //     echo "0 résultats";
+            // }
 
 
 

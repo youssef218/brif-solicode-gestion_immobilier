@@ -19,9 +19,8 @@
     </header>
     <nav>
         <ul>
-        <li><a href="http://localhost/knn/folf1/index.php"><i class="fa-solid fa-house"></a></i></li>
+        <li><a href="http://localhost/knn/folf1/inde.php"><i class="fa-solid fa-house"></a></i></li>
             <li> <a href="http://localhost/knn/folf1/profile.php"><i class="fa-solid fa-user"></i></i></a></li>
-            <i class="fa-solid fa-right-from-bracket"></i>
             <li><a href="http://localhost/knn/folf1/ajoute.php"><i class="fa-solid fa-plus"></i></a></li>
                   </ul>
     </nav>
@@ -35,61 +34,140 @@
         
              
 <?php
- $servername = "localhost";
- $username = "Root";
- $password = "";
- $dbname = "gestionnaire";
- // Créez une connexion
- $conn = mysqli_connect($servername, $username, $password, $dbname);
- // Vérifiez la connexion
- if (!$conn) {
-   die("Connexion échouée : " . mysqli_connect_error());
- }
+$id = $_POST['id'];
+$dsn = 'mysql:host=localhost;dbname=gestionnaire';
+$username = 'Root';
+$password = '';
+$options = array(
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+);
+try {
+    $db = new PDO($dsn, $username, $password, $options);
+} catch (PDOException $e) {
+    echo 'Connection failed: ' . $e->getMessage();
+}
+$stmt = $db->prepare('SELECT * FROM annonce WHERE id_annonce = :id ');
+
+$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+$stmt->execute();
+$records = $stmt->fetchAll();
+
+// Display the records on the page
+foreach ($records as $record) {
+    echo '
+    <div id="imageprincipal">
+  <img src="img5.jpg" alt="">
+  <div id="flex">
+      
+      <img src="img5.jpg" alt="">
+      <div class=" d-flex">
+          <img src="img5.jpg" alt="">
+      <img src="img5.jpg" alt="">
+      </div>
+      <img src="img5.jpg" alt="">
+      <img src="img5.jpg" alt="">
+  </div>
 
 
-           $id = $_POST['id'];
-// echo $id;
-           $modalsql = "SELECT * FROM annonce where id_annonce='$id'";
-           $resultmodal = mysqli_query($conn, $modalsql);
-           if (mysqli_num_rows($resultmodal) > 0) {
-             while ($rowmodal = mysqli_fetch_assoc($resultmodal)) {
-              echo '
-              <div id="imageprincipal">
-            <img src="img5.jpg" alt="">
-            <div id="flex">
+
+
+
+</div>
+    <h1 style="background-color: white;  width: max-content; margin-top:3%;">Titre</h1>
+    <h5>'.$record['titre'].'</h5><br>
+    <h2 style="background-color: white;  width: max-content; margin-top:3%;">Adresse d`annonce</h2>
+    <h5>'.$record['adresse'].'</h5>
+    <h2 style="background-color: white;  width: max-content; margin-top:3%;">La Ville</h2>
+    <h5>'.$record['ville'].'</h5>
+    <h2 style="background-color: white;  width: max-content; margin-top:3%;">Categorie</h2>
+    <h5>'.$record['categorie'].'</h5>
+    <h2 style="background-color:white;   width: max-content; margin-top:3;">Type d`annonce</h2>
+    <h5>'.$record['type'].'</h5>
+    <h2 style="background-color: white;  width: max-content; margin-top:3%;">Date d`ajouter</h2>
+    <h5>'.$record['date_ajout'].'</h5>
+    <h2 style="background-color: white;  width: max-content; margin-top:3%;">Date de modifier</h2>
+    <h5>'.$record['dae_modif'].'</h5>
+    <h2 style="background-color: white;  width: max-content; margin-top:3%;">description</h2>
+    <h5>'.$record['description'].'</h5><br>
+
+    ';
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//  $servername = "localhost";
+//  $username = "Root";
+//  $password = "";
+//  $dbname = "gestionnaire";
+//  // Créez une connexion
+//  $conn = mysqli_connect($servername, $username, $password, $dbname);
+//  // Vérifiez la connexion
+//  if (!$conn) {
+//    die("Connexion échouée : " . mysqli_connect_error());
+//  }
+
+
+//            $id = $_POST['id'];
+// // echo $id;
+//            $modalsql = "SELECT * FROM annonce where id_annonce='$id'";
+//            $resultmodal = mysqli_query($conn, $modalsql);
+//            if (mysqli_num_rows($resultmodal) > 0) {
+//              while ($rowmodal = mysqli_fetch_assoc($resultmodal)) {
+//               echo '
+//               <div id="imageprincipal">
+//             <img src="img5.jpg" alt="">
+//             <div id="flex">
                 
-                <img src="img5.jpg" alt="">
-                <div class=" d-flex">
-                    <img src="img5.jpg" alt="">
-                <img src="img5.jpg" alt="">
-                </div>
-                <img src="img5.jpg" alt="">
-                <img src="img5.jpg" alt="">
-            </div>
+//                 <img src="img5.jpg" alt="">
+//                 <div class=" d-flex">
+//                     <img src="img5.jpg" alt="">
+//                 <img src="img5.jpg" alt="">
+//                 </div>
+//                 <img src="img5.jpg" alt="">
+//                 <img src="img5.jpg" alt="">
+//             </div>
 
 
 
 
 
-        </div>
-              <h1 style="background-color: white;  width: max-content; margin-top:3%;">Titre</h1>
-              <h5>'.$rowmodal['titre'].'</h5><br>
-              <h2 style="background-color: white;  width: max-content; margin-top:3%;">Adresse d`annonce</h2>
-              <h5>'.$rowmodal['adresse'].'</h5>
-              <h2 style="background-color: white;  width: max-content; margin-top:3%;">La Ville</h2>
-              <h5>'.$rowmodal['ville'].'</h5>
-              <h2 style="background-color: white;  width: max-content; margin-top:3%;">Categorie</h2>
-              <h5>'.$rowmodal['categorie'].'</h5>
-              <h2 style="background-color:white;   width: max-content; margin-top:3;">Type d`annonce</h2>
-              <h5>'.$rowmodal['type'].'</h5>
-              <h2 style="background-color: white;  width: max-content; margin-top:3%;">Date d`ajouter</h2>
-              <h5>'.$rowmodal['date_ajout'].'</h5>
-              <h2 style="background-color: white;  width: max-content; margin-top:3%;">description</h2>
-              <h5>'.$rowmodal['description'].'</h5>
+//         </div>
+//               <h1 style="background-color: white;  width: max-content; margin-top:3%;">Titre</h1>
+//               <h5>'.$rowmodal['titre'].'</h5><br>
+//               <h2 style="background-color: white;  width: max-content; margin-top:3%;">Adresse d`annonce</h2>
+//               <h5>'.$rowmodal['adresse'].'</h5>
+//               <h2 style="background-color: white;  width: max-content; margin-top:3%;">La Ville</h2>
+//               <h5>'.$rowmodal['ville'].'</h5>
+//               <h2 style="background-color: white;  width: max-content; margin-top:3%;">Categorie</h2>
+//               <h5>'.$rowmodal['categorie'].'</h5>
+//               <h2 style="background-color:white;   width: max-content; margin-top:3;">Type d`annonce</h2>
+//               <h5>'.$rowmodal['type'].'</h5>
+//               <h2 style="background-color: white;  width: max-content; margin-top:3%;">Date d`ajouter</h2>
+//               <h5>'.$rowmodal['date_ajout'].'</h5>
+//               <h2 style="background-color: white;  width: max-content; margin-top:3%;">description</h2>
+//               <h5>'.$rowmodal['description'].'</h5>
 
-              ';
-             }
-           }
+//               ';
+//              }
+//            }
 
 ?>
         </div>
