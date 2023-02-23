@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 // echo $_SESSION['user_id']
 if (isset($_SESSION['user_id'])) {
@@ -9,11 +8,6 @@ if (isset($_SESSION['user_id'])) {
   header('Location: Connection.php');
   exit;
 }
-
-
-
-
-
 // Database credentials
 $servername = "localhost";
 $username = "Root";
@@ -36,12 +30,6 @@ try {
     $value6 = $_POST['Categorie'];
     $value7 = $_POST['Type'];
     $value15 = $user_id;
-
-
-
-
-
-
     // Prepare SQL statement
     $stmt = $conn->prepare("INSERT INTO `annonce` (`id_annonce`, `titre`, `prix`, `date_ajout`, `dae_modif`, `adresse`, `description`, `ville`, `categorie`, `type`, `url_image_principal`, `url_image1`, `url_image2`, `url_image3`, `url_image4`, `url_image5`, `url_image6`, `id_client`) VALUES (NULL, :value1, :value2, Null, Null, :value3, :value4, :value5, :value6, :value7, :value8, :value9, :value10, :value11, :value12, :value13, :value14, :value15) ");
 
@@ -54,8 +42,6 @@ try {
     $value12 = "another value";
     $value13 = "another value";
     $value14 = "another value";
-
-
     $stmt->bindParam(':value1', $value1);
     $stmt->bindParam(':value2', $value2);
     $stmt->bindParam(':value3', $value3);
@@ -82,33 +68,6 @@ try {
 
 // Close connection
 $conn = null;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -140,10 +99,6 @@ $conn = null;
     </ul>
   </nav>
   <section>
-
-
-
-
     <form method="post" action="ajoute.php">
       <div class="mb-3 w-75">
         <label for="" class="form-label">Titre</label>
@@ -170,14 +125,7 @@ $conn = null;
     </form>
   </section>
   <section>
-
   </section>
-
-
-
-
-
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 

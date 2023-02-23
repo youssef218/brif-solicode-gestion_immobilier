@@ -90,6 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="submit" name = "submit" value="Se connecter">
                 </div>
             </form>
+            <p>si vous n'avez un compte </p><a href="http://localhost/knn/folf1/index.php">créer un</a>
         </div>
     </div>
 

@@ -12,10 +12,6 @@ if (isset($_SESSION['user_id'])) {
 }
 ?>
 
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,13 +37,13 @@ if (isset($_SESSION['user_id'])) {
             <li>
                 <a href="http://localhost/knn/folf1/profile.php"><i class="fa-solid fa-user"></i></i></a>
             </li>
-           <li>
-            
-            <a  href="http://localhost/knn/folf1/exit.php">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            </a>
-           </li>
-           
+            <li>
+
+                <a href="http://localhost/knn/folf1/exit.php">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </a>
+            </li>
+
             <li><a href="http://localhost/knn/folf1/ajoute.php"><i class="fa-solid fa-plus"></i></a></li>
 
         </ul>
@@ -57,38 +53,38 @@ if (isset($_SESSION['user_id'])) {
     <?php
 
 
-$dsn = 'mysql:host=localhost;dbname=gestionnaire';
-$username = 'Root';
-$password = '';
-$options = array(
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-);
-try {
-    $db = new PDO($dsn, $username, $password, $options);
-} catch (PDOException $e) {
-    echo 'Connection failed: ' . $e->getMessage();
-}
+    $dsn = 'mysql:host=localhost;dbname=gestionnaire';
+    $username = 'Root';
+    $password = '';
+    $options = array(
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+    );
+    try {
+        $db = new PDO($dsn, $username, $password, $options);
+    } catch (PDOException $e) {
+        echo 'Connection failed: ' . $e->getMessage();
+    }
 
-// Query the database for the first 5 records
-$stmt = $db->prepare('SELECT * FROM clients WHERE id_client = :id LIMIT 5');
-$stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
-$stmt->execute();
-$records = $stmt->fetchAll();
+    // Query the database for the first 5 records
+    $stmt = $db->prepare('SELECT * FROM clients WHERE id_client = :id LIMIT 5');
+    $stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $records = $stmt->fetchAll();
 
-// Display the records on the page
-foreach ($records as $record) {
-    
-
+    // Display the records on the page
+    foreach ($records as $record) {
 
 
 
 
 
 
-    
-        
 
-            echo '
+
+
+
+
+        echo '
                      
                     <section class="m-0 mt-5">
                     <div class="d-flex  justify-content-center align-content-center ">
@@ -150,8 +146,8 @@ foreach ($records as $record) {
                     </form>
 
             ';
-        }
-     
+    }
+
 
 
 
@@ -168,15 +164,17 @@ foreach ($records as $record) {
         <h1>Mes annonce</h1>
         <div id="cards">
             <?php
-    $stmt = $db->prepare('SELECT * FROM annonce WHERE id_client = :id ');
-    $stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
-    $stmt->execute();
-    $records = $stmt->fetchAll();
-    
-    // Display the records on the page
+            $stmt = $db->prepare('SELECT * FROM annonce WHERE id_client = :id ');
+            $stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
+            $stmt->execute();
+            $records = $stmt->fetchAll();
+
+            // Display the records on the page
             foreach ($records as $record) {
                 echo '
-                     
+            <div style="display: flex; flex-direction:column;">
+
+            <div >
                 <form action=" http://localhost/knn/folf1/info.php" method="post" >
                 <div class="card" style="width: 15rem;" >
                 <img src="img5.jpg" class="card-img-top" alt="...">
@@ -191,137 +189,51 @@ foreach ($records as $record) {
                 
               </div>
               </form>
-              <form action=" http://localhost/knn/folf1/modif.php" method="post">
-                <input type="hidden" name="id"  value="' . $record["id_annonce"] . '">
-                <input type="submit" class="btn btn-primary" name="modifier"  value="modifier">
-                </form>
+              <div style="display: flex; ">
+                     <form action=" http://localhost/knn/folf1/suprimer.php" method="post" class="p-3 mb-2 bg-danger text-white">
+                     <input type="hidden" name="id"  value="' . $record["id_annonce"] . '">
+                        <input type="submit" class="btn" name="suprimer"  value="suprimer">
+                     </form>
+                    <form action=" http://localhost/knn/folf1/modif.php" method="post" class="p-3 mb-2 bg-success text-white">
+                     <input type="hidden" name="id"  value="' . $record["id_annonce"] . '">
+                        <input type="submit" class="btn " name="modifier"  value="modifier">
+                        </form>
+                </div>
+            </div>
+            </div>
+                     
               
 
             ';
-
             }
-
-
-
-
-
-
-
-            // if (isset($_POST['Update'])) {
-            //     $value1 = $_POST['nom'];
-            //     $value2 = $_POST['prenom'];
-            //     $value3 = $_POST['email'];
-            //     $value4 = $_POST['password'];
-            //     $value5 = $_POST['telephone'];
-            //     $value6 =  $user_id ;
-            //     // Prepare SQL statement
-            //     $stmt = $conn->prepare("UPDATE clients SET  nom = :value1,  prenom = :value2,  email = :value3,  password = :value4,  telephone = :value5 WHERE  id_client = :value6");
-                                            
-            //     // Bind parameters to values         
-            //     $stmt->bindParam(':value1', $value1);
-            //     $stmt->bindParam(':value2', $value2);
-            //     $stmt->bindParam(':value3', $value3);
-            //     $stmt->bindParam(':value4', $value4);
-            //     $stmt->bindParam(':value5', $value5);
-            //     $stmt->bindParam(':value6', $value6);
-            //     // Execute the statement
-            //     $stmt->execute();
-            //     echo "Data update successfully!";
-            //   }
-
-
             // Update the client's information
-if (isset($_POST['Update'])) {
-    $value1 = $_POST['nom'];
-    $value2 = $_POST['prenom'];
-    $value3 = $_POST['email'];
-    $value4 = $_POST['password'];
-    $value5 = $_POST['telephone'];
-    $value6 = $user_id;
+            if (isset($_POST['Update'])) {
+                $value1 = $_POST['nom'];
+                $value2 = $_POST['prenom'];
+                $value3 = $_POST['email'];
+                $value4 = $_POST['password'];
+                $value5 = $_POST['telephone'];
+                $value6 = $user_id;
 
-                // echo $value1;
-                // echo $value2;
-                // echo $value3;
-                // echo $value4;
-                // echo $value5;
-                // echo $value6;
+                try {
+                    $stmt = $db->prepare("UPDATE clients SET nom = :value1, prenom = :value2, email = :value3, password = :value4, telephone = :value5 WHERE id_client = :value6");
 
-    try {
-        $stmt = $db->prepare("UPDATE clients SET nom = :value1, prenom = :value2, email = :value3, password = :value4, telephone = :value5 WHERE id_client = :value6");
+                    $stmt->bindParam(':value1', $value1);
+                    $stmt->bindParam(':value2', $value2);
+                    $stmt->bindParam(':value3', $value3);
+                    $stmt->bindParam(':value4', $value4);
+                    $stmt->bindParam(':value5', $value5);
+                    $stmt->bindParam(':value6', $value6);
 
-        $stmt->bindParam(':value1', $value1);
-        $stmt->bindParam(':value2', $value2);
-        $stmt->bindParam(':value3', $value3);
-        $stmt->bindParam(':value4', $value4);
-        $stmt->bindParam(':value5', $value5);
-        $stmt->bindParam(':value6', $value6);
-
-        $stmt->execute();
-        header('Location: profile.php');
-            exit;
-        
-    } catch(PDOException $e) {
-        echo "Error updating data: " . $e->getMessage();
-    }
-}
-           
-            
-           
-            
-
-
-
-
-
-
-            // $servername = "localhost";
-            // $username = "Root";
-            // $password = "";
-            // $dbname = "gestionnaire";
-            // // Créez une connexion
-            // $conn = mysqli_connect($servername, $username, $password, $dbname);
-            // // Vérifiez la connexion
-            // if (!$conn) {
-            //     die("Connexion échouée : " . mysqli_connect_error());
-            // }
-
-
-            // $sql = "SELECT * FROM annonce WHERE `id_client`=1 ";
-
-            // $result = mysqli_query($conn, $sql);
-            // if (mysqli_num_rows($result) > 0) {
-
-            //     while ($row = mysqli_fetch_assoc($result)) {
-
-            //         echo '
-                     
-            //     <form action=" http://localhost/knn/folf1/info.php" method="post" >
-            //     <div class="card" style="width: 15rem;" >
-            //     <img src="img5.jpg" class="card-img-top" alt="...">
-            //     <div class="card-body">
-            //       <h5 class="card-title">' . $row['titre'] . '</h5>
-            //       <p class="card-text">' . $row['prix'] . '</p>
-            //       <p class="card-text">' . $row['adresse'] . '</p>
-            //       <input type="hidden" name="id"  value="' . $row["id_annonce"] . '">
-            //       <input type="submit" class="btn btn-primary" name="modal"  value="more">
-
-            //     </div>
-            //   </div>
-            //   </form>
-              
-
-            // ';
-            //     }
-            // } else {
-            //     echo "0 résultats";
-            // }
-
-
-
-
-
-                // Close connection
-                $conn = null;
+                    $stmt->execute();
+                    header('Location: profile.php');
+                    exit;
+                } catch (PDOException $e) {
+                    echo "Error updating data: " . $e->getMessage();
+                }
+            }
+            // Close connection
+            $conn = null;
             ?>
         </div>
     </section>
